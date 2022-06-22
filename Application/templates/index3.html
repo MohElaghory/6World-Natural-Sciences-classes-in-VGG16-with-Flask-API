@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>App Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href=" {{ url_for('static', filename= 'css/style2.css') }} " />
+</head>
+<body>
+
+    <h1 class= 'header'>Select a File To Upload...</h1>
+
+    <form action= '/' method= "post" enctype= "multipart/form-data">
+       <div class= parent>
+            <div class="file-input">
+                <input class="file" type="file" id="file" name="file" autocomplete="off" onchange="javascript:updateList()" required>
+                <label for="file"><i class="glyphicon glyphicon-cloud-upload" style= "margin-right: 5px"></i> Upload</label>
+                <div id="fileList" class= 'selected-name'></div>
+            </div>
+        <p class= "button">
+            <input type="submit" value="Predict" class="btn btn-info">
+        </p>
+        </div>
+    </form> 
+
+    <!-- bullet point زي ما باين تحتينا علي طول كده فلو في رسايل فعلاً فخلاص لوبلي علي الرساله دي وأعرضهالي بس في get_flashed_messages() فبالتالي عشان الرسايل دي تظهرلي لازم استدعي فانكشن اسمها flash طبعاً في رسايل أنا عاملها ب -->
+    <p>
+        {% with messages= get_flashed_messages() %}
+            {% if messages %}
+                <ul class= 'message'>
+                    {% for message in messages %}
+                        <li> {{message}} </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </p>
+
+    {% if filename %}
+        <div class=" displayed_image">
+            <img src=" {{url_for('display_image', filename= filename)}}" style= 'box-shadow: 3px 3px 5px 5px black;'>
+        </div>
+    {% endif %}
+    
+
+    {% if pred_result %}
+        <center> <p class= 'prediction_label' style= 'color: white; margin-top: 20px; font-size: 20px; font-family: Trebuchet MS; text-shadow: 2px 2px 2px black;'> {{pred_result}} </p> </center>
+    {% endif %}
+    
+
+    <script src="{{ url_for('static', filename= 'js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
+</body>
+</html>
